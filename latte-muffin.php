@@ -17,12 +17,16 @@ if ( !defined('ABSPATH') ) {
 require __DIR__ . '/vendor/autoload.php';  // Cargar autoload de Composer
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 
 // Función para obtener una respuesta de la API de ChatGPT
 function obtener_respuesta_chatgpt($mensaje) {
     $api_key = get_option('muffin_api_key');  // Obtener la clave API de las opciones de WordPress
+    if (!$api_key) {
+        return 'Clave API no configurada.';
+    }
     $client = new Client();
-    
+
     try {
         $response = $client->post('https://api.openai.com/v1/chat/completions', [
             'headers' => [
@@ -57,15 +61,44 @@ function obtener_respuesta_chatgpt($mensaje) {
     }
 }
 
-// Función para añadir el mensaje al pie de página
+// Función para añadir el botón y el contenedor en el pie de página
 function agregar_mensaje_pie_de_pagina() {
-    $mensaje = "Di algo interesante sobre la inteligencia artificial con menos de 30 palabras.";
-    $respuesta = obtener_respuesta_chatgpt($mensaje);
-    echo '<p style="text-align: center;">' . esc_html($respuesta) . '</p>';
+    ?>
+    <div id="chatgpt-response" style="text-align: center; margin-top: 20px;"></div>
+    <div style="text-align: center; margin-top: 20px;">
+        <button id="chatgpt-button">Obtener respuesta de ChatGPT</button>
+    </div>
+    <script type="text/javascript">
+        document.getElementById('chatgpt-button').addEventListener('click', function() {
+            var mensaje = "Di algo interesante sobre la inteligencia artificial.";
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById('chatgpt-response').innerHTML = this.responseText;
+                }
+            };
+            xhttp.open("POST", "<?php echo admin_url('admin-ajax.php'); ?>", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("action=obtener_respuesta_chatgpt&mensaje=" + encodeURIComponent(mensaje));
+        });
+    </script>
+    <?php
 }
 
-// Hook para añadir la función al pie de página
 add_action('wp_footer', 'agregar_mensaje_pie_de_pagina');
+
+// Función para manejar la solicitud AJAX
+function ajax_obtener_respuesta_chatgpt() {
+    if (isset($_POST['mensaje'])) {
+        $mensaje = sanitize_text_field($_POST['mensaje']);
+        $respuesta = obtener_respuesta_chatgpt($mensaje);
+        echo esc_html($respuesta);
+    }
+    wp_die();
+}
+
+add_action('wp_ajax_obtener_respuesta_chatgpt', 'ajax_obtener_respuesta_chatgpt');
+add_action('wp_ajax_nopriv_obtener_respuesta_chatgpt', 'ajax_obtener_respuesta_chatgpt');
 
 // Añadir el menú al panel de administración
 function muffin_menu() {
