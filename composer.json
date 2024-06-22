@@ -1,0 +1,20 @@
+{
+    "name": "hunabix/latte-muffin",
+    "description": "Plugin de WordPress para Evaluación con IA",
+    "type": "project",
+    "require": {
+        "guzzlehttp/guzzle": "^7.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "LatteMuffin\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alejandro Sobrevilla",
+            "email": "hunabix@gmail.com"
+        }
+    ],
+    "license": "GPL-2.0-or-later"
+}
