@@ -20,14 +20,18 @@ require __DIR__ . '/admin/settings-page.php';
 require __DIR__ . '/admin/settings.php';
 require __DIR__ . '/includes/api-functions.php';
 require __DIR__ . '/public/form-handler.php';
-//require __DIR__ . '/public/form-page.php';
-//require __DIR__ . '/includes/error-handling.php';
+require __DIR__ . '/public/form-page.php';
 
 // Hooks
 add_action('admin_menu', 'muffin_menu');
 add_action('admin_init', 'muffin_register_settings');
-add_action('wp_footer', 'agregar_mensaje_pie_de_pagina');
-//add_action('wp_ajax_obtener_respuesta_chatgpt', 'ajax_obtener_respuesta_chatgpt');
-//add_action('wp_ajax_nopriv_obtener_respuesta_chatgpt', 'ajax_obtener_respuesta_chatgpt');
+add_action('wp_ajax_obtener_respuesta_chatgpt', 'ajax_obtener_respuesta_chatgpt');
+add_action('wp_ajax_nopriv_obtener_respuesta_chatgpt', 'ajax_obtener_respuesta_chatgpt');
+add_action('wp_enqueue_scripts', 'muffin_enqueue_styles');
+
+// Archivo de estilos CSS
+function muffin_enqueue_styles() {
+    wp_enqueue_style('muffin-styles', plugin_dir_url(__FILE__) . 'style.css');
+}
 
 ?>

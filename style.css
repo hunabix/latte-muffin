@@ -1,0 +1,46 @@
+/* style.css */
+
+#evaluacion-form {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+#evaluacion-form textarea {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+}
+
+#evaluacion-form button {
+    width: 94%;
+    padding: 10px 20px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.25rem;
+}
+
+#evaluacion-form button:hover {
+    background-color: #ccc;
+    color: #000;
+}
+
+#chatgpt-response {
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    background-color: #ececec;
+}
