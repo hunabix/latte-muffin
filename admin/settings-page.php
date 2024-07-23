@@ -24,8 +24,11 @@ function muffin_settings_page() {
             ?>
             <table class="form-table">
                 <tr valign="top">
-                    <th scope="row">Clave API de OpenAI</th>
-                    <td><input type="text" name="muffin_api_key" value="<?php echo esc_attr(get_option('muffin_api_key')); ?>" /></td>
+                    <th scope="row">Clave API de OpenAI</th>                    
+                    <td>
+                        <input type="password" name="muffin_api_key" value="" placeholder="Introduce tu API key"/>
+                        <p class="description">Tu API key está segura y encriptada.</p>
+                    </td>
                 </tr>
                 <tr valign="top">
                     <th scope="row">Página de Evaluación</th>
